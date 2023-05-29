@@ -48,13 +48,15 @@ async function checkInputs() {
 	const warningDiv = inputblock.querySelector('.inputblock__res');
 	const data = new FormData(form);
 	const arr = [];
+	const valMin = 1;
+	const valMax = 10;
 	for (let [name, value] of data) {
 		let text = '';
-		if (value == '' || value < 1 || value > 10) {
+		if (value == '' || value < valMin || value > valMax) {
 			if (name == 'number_page') text = 'Номер страницы';
 			if (name == 'limit_pages') text = 'Лимит';
-			if ((data.get('number_page') == '' || data.get('number_page') < 1 || data.get('number_page') > 10) &&
-				(data.get('limit_pages') == '' || data.get('limit_pages') < 1 || data.get('limit_pages') > 10))
+			if ((data.get('number_page') == '' || data.get('number_page') < valMin || data.get('number_page') > valMax) &&
+				(data.get('limit_pages') == '' || data.get('limit_pages') < valMin || data.get('limit_pages') > valMax))
 				text = 'Номер страницы и лимит';
 			addErrorToDOM(warningDiv, text);
 			return arr;
@@ -77,9 +79,7 @@ function addErrorToDOM(warningDiv, text) {
 
 function clearAll(warningDiv) {
 	inputs.forEach(input => input.value = '');
-	if (warningDiv) {
-		warningDiv.remove();
-	}
+	if (warningDiv) warningDiv.remove();
 }
 
 async function useRequest(arr) {
